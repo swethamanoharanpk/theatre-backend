@@ -4,7 +4,9 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 dotenv.config()
 const cors = require('cors')
-app.use(cors())
+app.use(cors({
+    origin: 'https://theatre-frontend-xi.vercel.app' 
+  }));
 const userRouter = require('./router/userRouter')
 const adminRouter = require('./router/adminRouter')
 
