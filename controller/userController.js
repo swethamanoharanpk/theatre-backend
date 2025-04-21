@@ -128,73 +128,131 @@ const getComingsoonMovies = async(req,res)=>{
 //     }
 // }
 
+// latest
 
+// const getScheduledMovies = async (req, res) => {
+//     try {
+//         const date = req.params.date;
+//         const movieId = req.params.id;
+
+
+//         const inputDate = date
+
+
+// const parsedDate = new Date(inputDate);
+
+
+// const formattedDate = new Date(
+//   Date.UTC(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate())
+// ).toISOString();
+
+// console.log(formattedDate); 
+
+
+
+
+
+
+
+//         console.log("Incoming params:", { date, movieId });
+
+//         // Find all schedules for the specified movieId
+//         const screens = await Screen.findOne({ movieId:movieId , showsDate:formattedDate });
+
+//         console.log("Fetched screens:", screens);
+
+//         const temp = [];
+
+
+//         if (screens.movieSchedules && Array.isArray(screens.movieSchedules)) {
+//             screens.movieSchedules.forEach(schedule => {
+//                 const showDate = new Date(schedule.showDate);
+//                 const bodyDate = new Date(date);
+        
+//                 if (
+//                     showDate.getDate() === bodyDate.getDate() &&
+//                     showDate.getMonth() === bodyDate.getMonth() &&
+//                     showDate.getFullYear() === bodyDate.getFullYear()
+//                 ) {
+//                     temp.push({
+//                         screenId: screens._id,
+//                         schedule, // Include the matching schedule
+//                     });
+//                 }
+//             });
+//         }
+        
+
+//         console.log("Filtered schedules:", temp);
+        
+//             return res.status(200).json(screens);
+        
+
+        
+//     } catch (err) {
+//         console.error("Error in getScheduledMovies:", err);
+//         return res.status(500).json({ error: err.message });
+//     }
+// };
 
 const getScheduledMovies = async (req, res) => {
     try {
-        const date = req.params.date;
-        const movieId = req.params.id;
-
-
-        const inputDate = date
-
-
-const parsedDate = new Date(inputDate);
-
-
-const formattedDate = new Date(
-  Date.UTC(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate())
-).toISOString();
-
-console.log(formattedDate); 
-
-
-
-
-
-
-
-        console.log("Incoming params:", { date, movieId });
-
-        // Find all schedules for the specified movieId
-        const screens = await Screen.findOne({ movieId:movieId , showsDate:formattedDate });
-
-        console.log("Fetched screens:", screens);
-
-        const temp = [];
-
-
-        if (screens.movieSchedules && Array.isArray(screens.movieSchedules)) {
-            screens.movieSchedules.forEach(schedule => {
-                const showDate = new Date(schedule.showDate);
-                const bodyDate = new Date(date);
-        
-                if (
-                    showDate.getDate() === bodyDate.getDate() &&
-                    showDate.getMonth() === bodyDate.getMonth() &&
-                    showDate.getFullYear() === bodyDate.getFullYear()
-                ) {
-                    temp.push({
-                        screenId: screens._id,
-                        schedule, // Include the matching schedule
-                    });
-                }
+      const date = req.params.date;
+      const movieId = req.params.id;
+  
+      const inputDate = new Date(date);
+      const parsedDate = new Date(inputDate);
+  
+      const formattedDate = new Date(
+        Date.UTC(
+          parsedDate.getFullYear(),
+          parsedDate.getMonth(),
+          parsedDate.getDate()
+        )
+      ).toISOString();
+      console.log(formattedDate, "formattedDate");
+  
+  
+      // Find all schedules for the specified movieId
+      const screens = await Screen.findOne({
+        movieId: movieId,
+          // showsDate: formattedDate,
+      });
+      // console.log("Incoming params:", { date, movieId });
+      console.log("Fetched screens:", screens);
+  
+      const temp = [];
+      console.log(screens.movieSchedules, "movieSchedules");
+      console.log(Array.isArray(screens.movieSchedules));
+  
+      if (screens.movieSchedules && Array.isArray(screens.movieSchedules)) {
+        screens.movieSchedules.forEach((schedule) => {
+          const showDate = new Date(schedule.showDate);
+          const bodyDate = new Date(formattedDate);
+          console.log(showDate, bodyDate, "showDate and bodyDate");
+      
+  
+          if (
+            showDate.getDate() === bodyDate.getDate() &&
+            showDate.getMonth() === bodyDate.getMonth() &&
+            showDate.getFullYear() === bodyDate.getFullYear()
+          ) {
+            temp.push({
+              screenId: screens._id,
+              schedule, // Include the matching schedule
             });
-        }
-        
-
-        console.log("Filtered schedules:", temp);
-        
-            return res.status(200).json(screens);
-        
-
-        
+          }
+        });
+      }
+  
+      console.log("Filtered schedules:", temp);
+  
+      return res.status(200).json(screens);
     } catch (err) {
-        console.error("Error in getScheduledMovies:", err);
-        return res.status(500).json({ error: err.message });
-    }
-};
-
+      console.error("Error in getScheduledMovies:", err);
+      return res.status(500).json({ error: err.message });
+    }
+  };
 
 
 
