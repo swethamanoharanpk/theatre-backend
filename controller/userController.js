@@ -417,7 +417,7 @@ console.log("cheeeeckkkkkkkkkkkkkkkkkkk",showTime)
             if(showDate1.getDay() === showDate2.getDay() &&
         showDate1.getMonth() == showDate2.getMonth() &&
     showDate1.getFullYear() == showDate2.getFullYear() &&
-schedule.showTime === showTime &&
+// schedule.showTime === showTime &&
 schedule.movieId.toString()== movieId){
     return true;
 }
